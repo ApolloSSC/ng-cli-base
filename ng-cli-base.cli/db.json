@@ -1,17 +1,27 @@
-﻿{
+{
   "posts": [
     {
       "id": 1,
       "title": "json-server",
-      "author": "gperouffe"
+      "userId": "1"
     }
   ],
   "comments": [
     {
       "id": 1,
       "body": "some comment",
-      "postId": 1
+      "postId": 1,
+      "userId": 1
     }
   ],
-  "profile": { "name": "gperouffe" }
+  "users": [
+    {
+      "id": 1,
+      "username": "gperouffe"
+    },
+    {
+      "username": "Label",
+      "id": 2
+    }
+  ]
 }

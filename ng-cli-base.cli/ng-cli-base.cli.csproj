@@ -58,18 +58,21 @@
   <ItemGroup>
     <Content Include="karma.conf.js" />
     <Content Include="protractor.conf.js" />
-    <Content Include="src\app\app.component.css" />
+    <None Include="src\app\app.component.scss" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\index.html" />
-    <Content Include="src\styles.css" />
+    <None Include="src\styles.scss" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
     <TypeScriptCompile Include="e2e\app.po.ts" />
+    <TypeScriptCompile Include="src\app\api\api.services.ts" />
+    <TypeScriptCompile Include="src\app\api\generic-api.service.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\model\model.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />
@@ -77,6 +80,7 @@
     <TypeScriptCompile Include="src\test.ts" />
     <TypeScriptCompile Include="src\typings.d.ts" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />

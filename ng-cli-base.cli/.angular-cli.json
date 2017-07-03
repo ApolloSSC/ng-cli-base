@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
     "name": "ng-cli-base.cli"
@@ -7,10 +7,6 @@
     {
       "root": "src",
       "outDir": "dist",
-      "assets": [
-        "assets",
-        "favicon.ico"
-      ],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
@@ -18,8 +14,16 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        { "glob": "jquery.min.js", "input": "../node_modules/jquery/dist/", "output": "./js/" },
+        { "glob": "materialize.min.js", "input": "../node_modules/materialize-css/dist/js", "output": "./js/" },
+        { "glob": "**/*", "input": "../node_modules/materialize-css/sass", "output": "./sass/" },
+        { "glob": "**/*", "input": "../node_modules/materialize-css/dist/fonts/", "output": "./fonts/" }
+      ],
       "styles": [
-        "styles.css"
+        "styles.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -51,7 +55,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "component": {}
   }
 }

@@ -1,0 +1,12 @@
+﻿/* You can add global styles to this file, and also import other style files */
+$roboto-font-path: "../node_modules/materialize-css/dist/fonts/roboto/" !default;
+
+//Commencer par l'import des couleurs
+@import "../node_modules/materialize-css/sass/components/color";
+
+//Surcharger les couleurs globales
+$primary-color: color("orange", "lighten-2") !default;
+$secondary-color: color("red", "lighten-1") !default;
+
+//Importer le framework à la fin
+@import "../node_modules/materialize-css/sass/materialize";
