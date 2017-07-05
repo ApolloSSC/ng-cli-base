@@ -1,0 +1,32 @@
+﻿
+<ul class="collapsible popout" data-collapsible="accordion">
+  <li *ngFor="let post of posts">
+    <div class="collapsible-header">
+      <div class="row">
+        <div class="col s8">
+          <i class="material-icons">receipt</i>{{post.title}} - {{post.user.username}}
+        </div>
+        <div class="col s3 right-align">
+          <span>
+            Le {{getDateFromTimestamp(post.timestamp)}}
+          </span>
+        </div>
+        <div class="col s1">
+          <i *ngIf=" sharedService.currentUser && sharedService.currentUser.id == post.userId" class="material-icons" (click)="deletePost(post.id, $event)">delete_forever</i>
+        </div>
+      </div>
+    </div>
+    <div class="collapsible-body"><span>{{post.body}}</span></div>
+  </li>
+</ul>
+<ul *ngIf="pages" class="pagination center-align">
+  <li class="{{pages.first != currentPage? 'waves-effect': 'disabled'}}"><a (click)="first()"><i class="material-icons">first_page</i></a></li>
+  <li class="{{pages.prev? 'waves-effect': 'disabled'}}"><a (click)="prev()"><i class="material-icons">chevron_left</i></a></li>
+  <li><a>{{currentPage}}/{{pages.last? pages.last: 1}}</a></li>
+  <li class="{{pages.next? 'waves-effect': 'disabled'}}"><a (click)="next()"><i class="material-icons">chevron_right</i></a></li>
+  <li class="{{pages.last != currentPage? 'waves-effect': 'disabled'}}"><a (click)="last()"><i class="material-icons">last_page</i></a></li>
+</ul>
+<div id="resultsPerPageContainer" class="input-field inline">
+  <input id="resultsPerPage" type="number"  [(ngModel)]="resultsPerPage" (focusout)="getPage(1)" >
+  <label for="resultsPerPage">Résultats par page :</label>
+</div>

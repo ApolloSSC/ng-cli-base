@@ -1,0 +1,19 @@
+﻿
+<div id="slide-out" class="side-nav">
+
+    <div *ngIf="!sharedService.currentUser">
+      <h5 class="center-align">Connectez-vous</h5>
+      <form (ngSubmit)="loginUser(loginForm.valid)" #loginForm="ngForm">
+        <div class="input-field inline">
+          <input id="username" name="username" [(ngModel)]="username" class="validate" required>
+          <label [ngClass]="{'active': username.length > 0}" for="username" data-error="wrong" data-success="right">Nom d'utilisateur</label>
+        </div>
+        <button class="waves-effect waves-light btn" type="submit">Valider</button>
+      </form>
+    </div>
+
+    <div class="center-align" *ngIf="sharedService.currentUser">
+      <h5>Bienvenue, {{sharedService.currentUser.username}}</h5>
+      <button class="waves-effect waves-light btn" (click)="logout()">Changer d'utilisateur</button>
+    </div>
+</div>

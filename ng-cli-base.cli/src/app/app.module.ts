@@ -4,11 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { UserApiService, CommentApiService, PostApiService } from './api/api.services';
+import { SharedService } from './service/shared.service';
 import { HttpModule } from '@angular/http';
+import { NavbarComponent } from './navbar/navbar.component';
+import { PostsPanelComponent } from './posts/posts-panel.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    PostsPanelComponent
   ],
   imports: [
       BrowserModule,
@@ -18,7 +23,8 @@ import { HttpModule } from '@angular/http';
   providers: [
       UserApiService,
       CommentApiService,
-      PostApiService
+      PostApiService,
+      SharedService
   ],
   bootstrap: [AppComponent]
 })

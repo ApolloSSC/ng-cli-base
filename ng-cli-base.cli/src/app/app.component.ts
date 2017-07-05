@@ -1,6 +1,9 @@
 ﻿import { Component } from '@angular/core';
-import { UserApiService, PostApiService, CommentApiService } from './api/api.services'
-import { User, Post, Comment } from './model/model'
+import { User, Post, Comment } from './model/model';
+import { SharedService } from './service/shared.service';
+import { PostApiService } from './api/api.services';
+
+declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -9,29 +12,38 @@ import { User, Post, Comment } from './model/model'
 })
 export class AppComponent {
 
-    private title = 'app';
-    private user = new User();
-    private newuser = new User();
+    private newPost = new Post();
 
     constructor(
-        private postService: PostApiService,
-        private userService: UserApiService,
-        private commentService: CommentApiService
-    ) { 
-        userService.getById(1).subscribe(
-            us => {
-                this.user = us;
-            },
-            err => console.log(err)
-        );
+        private sharedService: SharedService,
+        private postService: PostApiService
+    ) { }
+
+    ngAfterViewInit() {
+        $(".button-collapse").sideNav();
+        $('.modal').modal();
     }
 
-    private addUser() {
-        this.userService.create(this.newuser).subscribe(
-            res => {
-                this.user = res;
-            },
-            err => console.log(err)
-        );
+    showModalPost() {
+        this.newPost = new Post();
+        setTimeout(() => {
+            $('#postModal').modal('open');
+            $('#body').trigger('autoresize');
+        }
+        , 0);
+    }
+
+    sendPost(isValid) {
+        this.newPost.userId = this.sharedService.currentUser.id;
+        this.newPost.timestamp = (new Date()).valueOf();
+        if (isValid) {
+            this.postService.create(this.newPost).subscribe(
+                res => {
+                    this.sharedService.triggerRefresh.next(true);
+                },
+                err => console.log(err)
+            );
+            $('#postModal').modal('close');
+        }
     }
 }

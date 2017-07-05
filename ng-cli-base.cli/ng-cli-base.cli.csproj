@@ -48,6 +48,8 @@
     <None Include="package-lock.json" />
     <None Include="package.json" />
     <None Include="README.md" />
+    <None Include="src\app\navbar\navbar.component.scss" />
+    <None Include="src\app\posts\posts-panel.component.scss" />
     <None Include="src\assets\.gitkeep" />
     <None Include="src\tsconfig.app.json" />
     <None Include="src\tsconfig.spec.json" />
@@ -60,6 +62,8 @@
     <Content Include="protractor.conf.js" />
     <None Include="src\app\app.component.scss" />
     <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\navbar\navbar.component.html" />
+    <Content Include="src\app\posts\posts-panel.component.html" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\index.html" />
     <None Include="src\styles.scss" />
@@ -73,6 +77,12 @@
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\model\model.ts" />
+    <TypeScriptCompile Include="src\app\navbar\navbar.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\navbar\navbar.component.ts" />
+    <TypeScriptCompile Include="src\app\posts\posts-panel.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\posts\posts-panel.component.ts" />
+    <TypeScriptCompile Include="src\app\service\shared.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\service\shared.service.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />

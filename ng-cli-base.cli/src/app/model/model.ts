@@ -1,24 +1,26 @@
 ﻿
 export class User {
-    id: number;
+    id?: number;
     username: string;
-    comments: Comment[];
-    posts: Post[];
+    comments?: Comment[];
+    posts?: Post[];
 }
 
 export class Post {
-    id: number;
+    id?: number;
     title: string;
+    body: string;
+    timestamp: number;
     userId: number;
-    user: User;
-    comments: Comment[]
+    user?: User;
+    comments?: Comment[]
 }
 
 export class Comment {
-    id: number;
+    id?: number;
     body: string;
     postId: number;
     userId: number;
-    post: Post;
-    user: User;
+    post?: Post;
+    user?: User;
 }

@@ -19,7 +19,6 @@
         "favicon.ico",
         { "glob": "jquery.min.js", "input": "../node_modules/jquery/dist/", "output": "./js/" },
         { "glob": "materialize.min.js", "input": "../node_modules/materialize-css/dist/js", "output": "./js/" },
-        { "glob": "**/*", "input": "../node_modules/materialize-css/sass", "output": "./sass/" },
         { "glob": "**/*", "input": "../node_modules/materialize-css/dist/fonts/", "output": "./fonts/" }
       ],
       "styles": [

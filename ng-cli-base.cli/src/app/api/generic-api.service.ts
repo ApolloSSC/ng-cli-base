@@ -12,6 +12,32 @@ export class OrderBy {
     public order: string = "asc"; 
 }
 
+export class Filter {
+    public field = "";
+    public value = "";
+}
+
+export class GetParams {
+    public pagination?: Pagination;
+    public orderBy?: Array<OrderBy>;
+    public search?: string;
+    public filters?: Array<Filter>;
+    public embed?: Array<string>;
+    public expand?: Array<string>;
+}
+
+export class Pages {
+    public first: number;
+    public prev: number;
+    public next: number;
+    public last: number;
+}
+
+export class ResultWithPages<T> {
+    public data: Array<T>;
+    public pages: Pages;
+}
+
 export abstract class GenericApiService<T> {
 
     private apiUrl = "http://localhost:3000/";
@@ -26,23 +52,43 @@ export abstract class GenericApiService<T> {
             .catch((error: any) => this.manageError(error));
     }
 
-    public getWithParams(pagination?: Pagination, orderBy?: Array<OrderBy>, search?: string): Observable<Array<T>> {
+    private createQueryString(params: GetParams): string {
         let query = '';
-        if (pagination) {
-            query = '_page=' + pagination.page + '&_limit='
+        if (params.pagination) {
+            query = '_page=' + params.pagination.page + '&_limit=' + params.pagination.limit;
         }
-        if (orderBy && orderBy[0]) {
-            let sort = orderBy[0].sortfield;
-            let order = orderBy[0].order;
-            for (let i = 1; i < orderBy.length; i++) {
-                sort += ',' + orderBy[1].sortfield;
-                order += ',' + orderBy[1].order;
+        if (params.orderBy && params.orderBy[0]) {
+            let sort = params.orderBy[0].sortfield;
+            let order = params.orderBy[0].order;
+            for (let i = 1; i < params.orderBy.length; i++) {
+                sort += ',' + params.orderBy[1].sortfield;
+                order += ',' + params.orderBy[1].order;
             }
             query += '&_sort=' + sort + '&_order=' + order;
         }
-        if (search && search != '') {
-            query += '&q=' + search;
+        if (params.search && params.search != '') {
+            query += '&q=' + params.search;
         }
+        if (params.filters) {
+            for (let f of params.filters) {
+                query += '&' + f.field + '=' + f.value;
+            }
+        }
+        if (params.embed) {
+            for (let e of params.embed) {
+                query += '&_embed=' + e;
+            }
+        }
+        if (params.expand) {
+            for (let e of params.expand) {
+                query += '&_expand=' + e;
+            }
+        }
+        return query;
+    }
+
+    public get(params: GetParams): Observable<Array<T>> {
+        let query = this.createQueryString(params);
 
         return this.http
             .get(this.apiUrl + this.endpoint + '?' + query)
@@ -50,8 +96,34 @@ export abstract class GenericApiService<T> {
             .catch((error: any) => this.manageError(error));
     }
 
-    public create(obj: T): Observable<T> {
+    private parseLinkHeader(headers: string): Pages {
+        let links = new Pages();
+        if (headers) {
+            let headerLinks = headers.split(', ');
+            for (let link of headerLinks) {
+                let linkType = link.split('rel=')[1].replace(new RegExp('"', 'g'), '');
+                let url = link.substring(link.lastIndexOf('page=') + 5, link.indexOf('&'));
+                links[linkType] = url;
+            }
+        }
+        return links;
+    }
 
+    public getWithPages(params: GetParams): Observable<ResultWithPages<T>> {
+        let query = this.createQueryString(params);
+
+        return this.http
+            .get(this.apiUrl + this.endpoint + '?' + query)
+            .map((res: Response) => {
+                let data = this.manageSuccess(res);
+                let pages = this.parseLinkHeader(res.headers.get('link'));
+
+                return { data: data, pages: pages}
+            })
+            .catch((error: any) => this.manageError(error));
+    }
+
+    public create(obj: T): Observable<T> {
         return this.http
             .post(this.apiUrl + this.endpoint, obj)
             .map((res: Response) => this.manageSuccess(res))
@@ -61,7 +133,7 @@ export abstract class GenericApiService<T> {
     public delete(id: number): Observable<T> {
 
         return this.http
-            .delete(this.apiUrl + this.endpoint + id)
+            .delete(this.apiUrl + this.endpoint + '/' + id)
             .map((res: Response) => this.manageSuccess(res))
             .catch((error: any) => this.manageError(error));
     }
@@ -69,7 +141,7 @@ export abstract class GenericApiService<T> {
     public update(id: number, obj: T): Observable<T> {
 
         return this.http
-            .put(this.apiUrl + this.endpoint + id, obj)
+            .put(this.apiUrl + this.endpoint + '/' + id, obj)
             .map((res: Response) => this.manageSuccess(res))
             .catch((error: any) => this.manageError(error));
     }

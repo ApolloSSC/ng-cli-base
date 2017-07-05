@@ -1,16 +1,39 @@
-﻿<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}, {{user.username}}!!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyNTAgMjUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNTAgMjUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojREQwMDMxO30NCgkuc3Qxe2ZpbGw6I0MzMDAyRjt9DQoJLnN0MntmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMTI1LDMwIDEyNSwzMCAxMjUsMzAgMzEuOSw2My4yIDQ2LjEsMTg2LjMgMTI1LDIzMCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAJIi8+DQoJPHBvbHlnb24gY2xhc3M9InN0MSIgcG9pbnRzPSIxMjUsMzAgMTI1LDUyLjIgMTI1LDUyLjEgMTI1LDE1My40IDEyNSwxNTMuNCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAxMjUsMzAgCSIvPg0KCTxwYXRoIGNsYXNzPSJzdDIiIGQ9Ik0xMjUsNTIuMUw2Ni44LDE4Mi42aDBoMjEuN2gwbDExLjctMjkuMmg0OS40bDExLjcsMjkuMmgwaDIxLjdoMEwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMQ0KCQlMMTI1LDUyLjF6IE0xNDIsMTM1LjRIMTA4bDE3LTQwLjlMMTQyLDEzNS40eiIvPg0KPC9nPg0KPC9zdmc+DQo=">
-</div>
+﻿<header>
+  <app-navbar></app-navbar>
+</header>
 
-<form (ngSubmit)="addUser()">
-  <div class="input-field inline">
-    <input id="username" name="username" [(ngModel)]="newuser.username" class="validate" required>
-    <label [ngClass]="{'active': newuser?.username}" for="username" data-error="wrong" data-success="right">Nom d'utilisateur</label>
+<main>
+  <nav class="nav-extended">
+    <div class="nav-content valign-wrapper">
+      <span href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></span>
+      <div class="nav-title">
+        <span>Publications</span>
+      </div>
+      <a *ngIf="sharedService.currentUser != null" class="btn-floating btn-large halfway-fab waves-effect waves-light" (click)="showModalPost()">
+        <i class="material-icons">add</i>
+      </a>
+    </div>
+  </nav>
+  <div class="container">
+    <app-posts-panel></app-posts-panel>
   </div>
-  <button class="waves-effect waves-light btn" type="submit">Ajouter</button>
-</form>
 
+  <div id="postModal" class="modal">
+    <div class="modal-content">
+      <h4>Nouvelle publication</h4>
+      <form (ngSubmit)="sendPost(newPostForm.valid)" 
+            #newPostForm="ngForm"
+            class="right-align">
+        <div class="input-field">
+          <input id="title" name="title" [(ngModel)]="newPost.title" required>
+          <label [ngClass]="{'active': newPost.title?.length > 0}" for="title" data-error="wrong" data-success="right">Titre</label>
+        </div>
+        <div class="input-field">
+          <textarea id="body" name="body" [(ngModel)]="newPost.body" class="materialize-textarea" required></textarea>
+          <label [ngClass]="{'active': newPost.body?.length > 0}" for="body" data-error="wrong" data-success="right">Exprimez-vous</label>
+        </div>
+        <button class="waves-effect waves-light btn" type="submit">Valider</button>
+      </form>
+    </div>
+  </div>
+</main>
